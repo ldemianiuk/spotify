@@ -1,0 +1,6 @@
+<div>
+  <label for="playlist">Playlist: </label>
+<select id="playlist" [(ngModel)]="selectedPlaylist" (ngModelChange)="onPlaylistChange()">
+  <option *ngFor="let p of playlists" [value]="p.id">{{p.name}}</option>
+</select>
+</div>
