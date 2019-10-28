@@ -1,0 +1,39 @@
+h2 {
+  color: white;
+}
+
+ul {
+  list-style-type: none;
+  font-size: 20px;
+  padding: 0;
+  margin: 0 0 2em 0;
+}
+
+
+li {
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  background-color: #1b1b1b;
+  margin: .2em;
+  padding: .1em 0;
+  border: none;
+  border-radius: 4px;
+  color: white;
+}
+
+button {
+  color: white;
+  background: gray;
+  border: none;
+  font-size: 20px;
+  border-radius: 3px;
+  padding: 5px 30px;
+  margin-bottom: 20px;
+  outline: none;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #4b4b4b;
+}
