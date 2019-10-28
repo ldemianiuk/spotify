@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {SpotifyService} from '../spotify.service';
 
 @Component({
   selector: 'app-playslists',
@@ -8,31 +9,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class PlayslistsComponent implements OnInit {
   playlists: object[];
-  selectedPlaylist: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private spotify: SpotifyService) { }
 
   ngOnInit() {
-    this.getUser().subscribe(user => console.log(user));
-    this.getPlaylists().subscribe(playlists => this.playlists = playlists.items);
-  }
-
-  getPlaylists() {
-    return this.spotifyRequest('https://api.spotify.com/v1/me/playlists');
-  }
-
-  getUser() {
-    return this.spotifyRequest('https://api.spotify.com/v1/me');
+    this.spotify.getUser().subscribe(user => console.log(user));
+    this.spotify.getPlaylists().subscribe(playlists => this.playlists = playlists.items);
   }
 
 
-  spotifyRequest(url) {
-    const token = localStorage.getItem('token');
-    const httpOptions = {headers: new HttpHeaders({'Authorization': `Bearer ${token}`})};
-    return this.http.get(url, httpOptions);
-  }
-
-  onPlaylistChange() {
-    console.log(this.selectedPlaylist);
-  }
 }

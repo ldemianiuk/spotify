@@ -8,13 +8,15 @@ import { AuthComponent } from './auth/auth.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { PlayslistsComponent } from './playslists/playslists.component';
 import {FormsModule} from '@angular/forms';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     RedirectComponent,
-    PlayslistsComponent
+    PlayslistsComponent,
+    PlaylistComponent
   ],
   imports: [
     BrowserModule,
