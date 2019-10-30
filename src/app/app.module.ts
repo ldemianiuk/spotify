@@ -8,7 +8,7 @@ import { AuthComponent } from './auth/auth.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { PlayslistsComponent } from './playslists/playslists.component';
 import {FormsModule} from '@angular/forms';
-import { PlaylistComponent } from './playlist/playlist.component';
+import { TrackListComponent } from './track-list/track-list.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
     AuthComponent,
     RedirectComponent,
     PlayslistsComponent,
-    PlaylistComponent
+    TrackListComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@
 <hr>
 <div>
   <ul>
-    <li routerLink="/playlist/{{p.id}}" *ngFor="let p of playlists">{{p.name}}</li>
+    <!--<li routerLink="/track-list/{{p.name}}" *ngFor="let p of playlists">{{p.name}}</li>-->
+    <li *ngFor="let p of playlists" (click)="goToTracks(p.id, p.name)">{{p.name}}</li>
   </ul>
 </div>

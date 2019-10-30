@@ -11,14 +11,14 @@
       <th>BPM</th>
       <th>Instr</th>
     </tr>
-    <tr *ngFor="let track of tracks, let i = index">
-      <td>{{track.track.artists[0].name}}</td>
-      <td>{{track.track.name}}</td>
-      <td>{{(track.track.duration_ms / 1000) / 60 | number: '1.0-0'}}:{{(track.track.duration_ms / 1000) % 60 | number: '2.0-0'}}</td>
+    <tr *ngFor="let track of tracks | async, let i = index">
+      <td>{{track.artists[0].name}}</td>
+      <td>{{track.name}}</td>
+<!--      <td>{{(track.track.duration_ms / 1000) / 60 | number: '1.0-0'}}:{{(track.track.duration_ms / 1000) % 60 | number: '2.0-0'}}</td>
       <td>{{track.track.popularity}}%</td>
       <td style="width: 20em">{{artists[i].genres.join(', ')}}</td>
       <td>{{features[i].tempo | number:'1.0-0'}}</td>
-      <td>{{features[i].instrumentalness | number: '1.0-1'}}</td>
+      <td>{{features[i].instrumentalness | number: '1.0-1'}}</td>-->
     </tr>
   </table>
 </div>

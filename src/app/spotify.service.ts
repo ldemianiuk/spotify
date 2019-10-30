@@ -3,12 +3,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   getPlaylists(): Observable<SpotifyApi.PagingObject<SpotifyApi.PlaylistObjectSimplified>> {
@@ -39,7 +42,12 @@ export class SpotifyService {
   spotifyRequest(url) {
     const token = localStorage.getItem('token');
     const httpOptions = {headers: new HttpHeaders({Authorization: `Bearer ${token}`})};
-    return this.http.get(url, httpOptions);
+    const result = this.http.get(url, httpOptions);
+    return result.pipe(tap(data => {}, error => {
+      if (error.status === 401) {
+        this.router.navigate(['/']);
+      }
+    }));
   }
 
 }
