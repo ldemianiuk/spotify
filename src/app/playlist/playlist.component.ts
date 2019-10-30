@@ -8,7 +8,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  tracks: object[];
+  tracks: SpotifyApi.PlaylistTrackObject[];
   name: string;
 
   constructor(private spotify: SpotifyService,
@@ -16,7 +16,10 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.spotify.getPlaylist(id).subscribe(res => {this.tracks = res.tracks.items; this.name = res.name;} );
+    this.spotify.getPlaylist(id).subscribe(res => {
+      this.tracks = res.tracks.items;
+      this.name = res.name;
+    });
   }
 
 
