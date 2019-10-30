@@ -1,7 +1,24 @@
 <h2>{{name}}</h2>
 <button routerLink="/playlists">Back</button>
 <div>
-  <ul>
-    <li *ngFor="let track of tracks">{{track.track.artists[0].name}} - {{track.track.name}}</li>
-  </ul>
+  <table>
+    <tr>
+      <th>Artist</th>
+      <th>Title</th>
+      <th>Duration</th>
+      <th>Popularity</th>
+      <th>Genres</th>
+      <th>BPM</th>
+      <th>Instr</th>
+    </tr>
+    <tr *ngFor="let track of tracks, let i = index">
+      <td>{{track.track.artists[0].name}}</td>
+      <td>{{track.track.name}}</td>
+      <td>{{(track.track.duration_ms / 1000) / 60 | number: '1.0-0'}}:{{(track.track.duration_ms / 1000) % 60 | number: '2.0-0'}}</td>
+      <td>{{track.track.popularity}}%</td>
+      <td style="width: 20em">{{artists[i].genres.join(', ')}}</td>
+      <td>{{features[i].tempo | number:'1.0-0'}}</td>
+      <td>{{features[i].instrumentalness | number: '1.0-1'}}</td>
+    </tr>
+  </table>
 </div>
