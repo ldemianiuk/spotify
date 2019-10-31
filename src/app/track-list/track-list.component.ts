@@ -2,8 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from '../spotify.service';
 import {ActivatedRoute} from '@angular/router';
 import {StateService} from '../state.service';
+import {flatMap, mergeAll, mergeMap} from 'rxjs/operators';
+import {asyncScheduler, of, range, zip} from 'rxjs';
 
 class Track {
+  index: number;
   id: string;
   upc: string;
   name: string;
@@ -14,7 +17,8 @@ class Track {
   duration: number;
   popularity: number;
   genres: string[] = [];
-  bpm = 0;
+  bpm : number;
+  date: string;
 
   constructor() {
   }
@@ -54,10 +58,11 @@ export class TrackListComponent implements OnInit {
     this.tracks = [];
     this.name = this.route.snapshot.paramMap.get('name ');
     this.state.tracks.subscribe(tracks => {
-      this.spotify.getAlbums(tracks.map(track => track.album.id)).subscribe(x => console.log(x));
-      for (const track of tracks) {
-        this.addTrack(track);
-      }
+      const album$ = this.spotify.getAlbums(tracks.map(track => track.album.id)).pipe(flatMap(x => of(...x.albums)));
+      const track$ = of(...tracks);
+      zip(range(0, Infinity, asyncScheduler), track$, album$).subscribe(([index, track, album]) => this.addTrack(index, track, album));
+      //tracks.forEach((track, index) => this.addTrack(track, index));
+
       /*
       this.getArtists();
       this.getAudioFeatures();
@@ -66,14 +71,16 @@ export class TrackListComponent implements OnInit {
     });
   }
 
-  private addTrack(spotifyTrack: SpotifyApi.TrackObjectFull) {
+  private addTrack(index: number, spotifyTrack: SpotifyApi.TrackObjectFull, album: SpotifyApi.AlbumObjectFull) {
     const track = new Track();
+    track.index = index;
     track.id = spotifyTrack.id;
     track.name = spotifyTrack.name;
     track.artist = spotifyTrack.artists[0].name;
     track.artistId = spotifyTrack.artists[0].id;
     track.album = spotifyTrack.album.name;
     track.albumId = spotifyTrack.album.id;
+    track.date = album.release_date;
     track.duration = spotifyTrack.duration_ms;
     this.avgDuration.add(track.duration);
     track.popularity = spotifyTrack.popularity;
@@ -82,29 +89,12 @@ export class TrackListComponent implements OnInit {
     this.tracks.push(track);
   }
 
-  private getArtists() {
-    for (const track of this.tracks) {
-      this.spotify.getArtist(track.artistId).subscribe(artist => {
-        track.genres = artist.genres;
-      });
-    }
+  private sortByPopularity() {
+    this.tracks.sort((x, y) => y.popularity - x.popularity);
   }
 
-  private getAudioFeatures() {
-    for (const track of this.tracks) {
-      this.spotify.getAudioFeatures(track.id).subscribe(features => {
-        track.bpm = features.tempo;
-        this.avgBpm.add(track.bpm);
-      });
-    }
-  }
-
-  private getAlbums() {
-    for (const track of this.tracks) {
-      this.spotify.getAlbum(track.albumId).subscribe(album => {
-        track.upc = album.external_ids.upc;
-      });
-    }
+  private sortByIndex() {
+    this.tracks.sort((x, y) => x.index - y.index);
   }
 
 }

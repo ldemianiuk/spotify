@@ -3,21 +3,23 @@
 <div>
   <table>
     <tr>
-      <th>#</th>
+      <th (click)="sortByIndex()">#</th>
       <th>Artist</th>
       <th>Title</th>
       <th>Album</th>
+      <th>Date</th>
       <th>Duration</th>
-      <th>Popularity</th>
+      <th (click)="sortByPopularity()">Popularity</th>
       <th>Genres</th>
       <th>BPM</th>
       <th>UPC</th>
     </tr>
     <tr *ngFor="let track of tracks, let i = index">
-      <td>{{i + 1}}</td>
+      <td>{{track.index + 1}}</td>
       <td>{{track.artist}}</td>
       <td>{{track.name}}</td>
       <td>{{track.album}}</td>
+      <td>{{track.date}}</td>
       <td>{{(track.duration / 1000) / 60 | number: '1.0-0'}}:{{(track.duration / 1000) % 60 | number: '2.0-0'}}</td>
       <td>{{track.popularity}}%</td>
       <td>{{track.genres.join(', ')}}</td>

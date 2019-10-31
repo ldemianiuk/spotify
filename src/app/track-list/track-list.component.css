@@ -8,9 +8,11 @@ table {
   margin: 0 0 2em 0;
 }
 
+th {
+  cursor: pointer;
+}
 
 tr {
-  cursor: pointer;
   position: relative;
   left: 0;
   background-color: #1b1b1b;

@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {concat, Observable, of} from 'rxjs';
 import {bufferCount, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import MultipleAlbumsResponse = SpotifyApi.MultipleAlbumsResponse;
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class SpotifyService {
               private router: Router) {
   }
 
-  getPlaylists(): Observable<SpotifyApi.PagingObject<SpotifyApi.PlaylistObjectSimplified>> {
+  getPlaylists(): Observable<SpotifyApi.ListOfUsersPlaylistsResponse> {
     return this.spotifyRequest('/me/playlists');
   }
 
@@ -50,8 +51,8 @@ export class SpotifyService {
     return concat(...result);
   }
 
-  getAlbums(ids: string[]): Observable<SpotifyApi.AlbumObjectFull[]> {
-    const result: Observable<SpotifyApi.AlbumObjectFull[]>[] = [];
+  getAlbums(ids: string[]): Observable<MultipleAlbumsResponse> {
+    const result: Observable<MultipleAlbumsResponse>[] = [];
     const id$ = of(...ids).pipe(bufferCount(this.MAX_GET_ALBUMS));
     id$.subscribe(batch => {
       const args = batch.join(',');
