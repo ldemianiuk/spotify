@@ -7,7 +7,7 @@
       <th>Artist</th>
       <th>Title</th>
       <th>Album</th>
-      <th>Date</th>
+      <th (click)="sortByDate()">Year</th>
       <th>Duration</th>
       <th (click)="sortByPopularity()">Popularity</th>
       <th>Genres</th>
@@ -19,7 +19,7 @@
       <td>{{track.artist}}</td>
       <td>{{track.name}}</td>
       <td>{{track.album}}</td>
-      <td>{{track.date}}</td>
+      <td>{{track.date | date: 'y'}}</td>
       <td>{{(track.duration / 1000) / 60 | number: '1.0-0'}}:{{(track.duration / 1000) % 60 | number: '2.0-0'}}</td>
       <td>{{track.popularity}}%</td>
       <td>{{track.genres.join(', ')}}</td>

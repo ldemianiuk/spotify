@@ -27,6 +27,6 @@ export class PlayslistsComponent implements OnInit {
       this.state.tracks = this.spotify.getPlaylistTracks(p.id, p.tracks.total).pipe(map(result =>
         result.items.map(track => track.track).filter(track => track.id !== null)
       ));
-      this.router.navigate([`/tracks/${p.name}`]);
+      this.router.navigate([`/tracks/${encodeURIComponent(p.name)}`]);
   }
 }

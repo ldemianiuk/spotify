@@ -6,6 +6,7 @@ import {concat, Observable, of} from 'rxjs';
 import {bufferCount, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import MultipleAlbumsResponse = SpotifyApi.MultipleAlbumsResponse;
+import MultipleArtistsResponse = SpotifyApi.MultipleArtistsResponse;
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class SpotifyService {
   private apiBaseUrl = 'https://api.spotify.com/v1';
   private MAX_GET_ALBUMS = 20;
   private MAX_GET_TRACKS = 100;
+  private MAX_GET_ARTISTS = 50;
+  private MAX_GET_AUDIO_FEATURES = 100;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -51,12 +54,32 @@ export class SpotifyService {
     return concat(...result);
   }
 
-  getAlbums(ids: string[]): Observable<MultipleAlbumsResponse> {
+  getAlbums(ids: string[]): Observable<SpotifyApi.MultipleAlbumsResponse> {
     const result: Observable<MultipleAlbumsResponse>[] = [];
     const id$ = of(...ids).pipe(bufferCount(this.MAX_GET_ALBUMS));
     id$.subscribe(batch => {
       const args = batch.join(',');
       result.push(this.spotifyRequest(`/albums/?ids=${args}`));
+    });
+    return concat(...result);
+  }
+
+  getArtists(ids: string[]): Observable<SpotifyApi.MultipleArtistsResponse> {
+    const result: Observable<SpotifyApi.MultipleArtistsResponse>[] = [];
+    const id$ = of(...ids).pipe(bufferCount(this.MAX_GET_ARTISTS));
+    id$.subscribe(batch => {
+      const args = batch.join(',');
+      result.push(this.spotifyRequest(`/artists/?ids=${args}`));
+    });
+    return concat(...result);
+  }
+
+  getTracksAudioFeatures(ids: string[]): Observable<SpotifyApi.MultipleAudioFeaturesResponse> {
+    const result: Observable<SpotifyApi.MultipleAudioFeaturesResponse>[] = [];
+    const id$ = of(...ids).pipe(bufferCount(this.MAX_GET_AUDIO_FEATURES));
+    id$.subscribe(batch => {
+      const args = batch.join(',');
+      result.push(this.spotifyRequest(`/audio-features/?ids=${args}`));
     });
     return concat(...result);
   }
