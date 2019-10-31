@@ -3,6 +3,15 @@
 <div>
   <ul>
     <!--<li routerLink="/track-list/{{p.name}}" *ngFor="let p of playlists">{{p.name}}</li>-->
-    <li *ngFor="let p of playlists" (click)="goToTracks(p.id, p.name)">{{p.name}}</li>
+    <li *ngFor="let p of playlists" (click)="goToTracks(p)">
+      <div class="box">
+      <img alt="cover" src={{p.images[0].url}}>
+        <div class="entry">
+        <div>{{p.name}} <span class="tracks">({{p.tracks.total}} tracks)</span></div>
+        <div>
+        </div>
+        </div>
+      </div>
+    </li>
   </ul>
 </div>

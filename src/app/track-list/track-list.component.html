@@ -3,8 +3,10 @@
 <div>
   <table>
     <tr>
+      <th>#</th>
       <th>Artist</th>
       <th>Title</th>
+      <th>Album</th>
       <th>Duration</th>
       <th>Popularity</th>
       <th>Genres</th>
@@ -12,13 +14,29 @@
       <th>UPC</th>
     </tr>
     <tr *ngFor="let track of tracks, let i = index">
+      <td>{{i + 1}}</td>
       <td>{{track.artist}}</td>
       <td>{{track.name}}</td>
+      <td>{{track.album}}</td>
       <td>{{(track.duration / 1000) / 60 | number: '1.0-0'}}:{{(track.duration / 1000) % 60 | number: '2.0-0'}}</td>
       <td>{{track.popularity}}%</td>
       <td>{{track.genres.join(', ')}}</td>
       <td>{{track.bpm | number:'1.0-0'}}</td>
       <td>{{track.upc}}</td>
+    </tr>
+    <tr>
+      <td colspan="9"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Average</td>
+      <td></td>
+      <td></td>
+      <td>{{(avgDuration.average / 1000) / 60 | number: '1.0-0'}}:{{(avgDuration.average / 1000) % 60 | number: '2.0-0'}}</td>
+      <td>{{avgPopularity.average | number: '1.0-0'}}%</td>
+      <td></td>
+      <td>{{avgBpm.average | number: '1.0-0'}}</td>
+      <td></td>
     </tr>
   </table>
 </div>

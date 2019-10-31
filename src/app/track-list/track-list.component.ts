@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from '../spotify.service';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
 import {StateService} from '../state.service';
 
 class Track {
@@ -21,6 +20,18 @@ class Track {
   }
 }
 
+class Average {
+  private sum = 0;
+  private count = 0;
+  average = 0;
+
+  add(n: number) {
+    this.sum += n;
+    this.count += 1;
+    this.average = this.sum / this.count;
+  }
+}
+
 @Component({
   selector: 'app-playlist',
   templateUrl: './track-list.component.html',
@@ -30,6 +41,9 @@ class Track {
 export class TrackListComponent implements OnInit {
   tracks: Track[];
   name: string;
+  avgBpm = new Average();
+  avgPopularity = new Average();
+  avgDuration = new Average();
 
   constructor(private spotify: SpotifyService,
               private route: ActivatedRoute,
@@ -40,12 +54,15 @@ export class TrackListComponent implements OnInit {
     this.tracks = [];
     this.name = this.route.snapshot.paramMap.get('name ');
     this.state.tracks.subscribe(tracks => {
+      this.spotify.getAlbums(tracks.map(track => track.album.id)).subscribe(x => console.log(x));
       for (const track of tracks) {
-        this.addTrack(track);;
+        this.addTrack(track);
       }
+      /*
       this.getArtists();
       this.getAudioFeatures();
       this.getAlbums();
+       */
     });
   }
 
@@ -58,7 +75,9 @@ export class TrackListComponent implements OnInit {
     track.album = spotifyTrack.album.name;
     track.albumId = spotifyTrack.album.id;
     track.duration = spotifyTrack.duration_ms;
+    this.avgDuration.add(track.duration);
     track.popularity = spotifyTrack.popularity;
+    this.avgPopularity.add(track.popularity);
 
     this.tracks.push(track);
   }
@@ -75,6 +94,7 @@ export class TrackListComponent implements OnInit {
     for (const track of this.tracks) {
       this.spotify.getAudioFeatures(track.id).subscribe(features => {
         track.bpm = features.tempo;
+        this.avgBpm.add(track.bpm);
       });
     }
   }
@@ -86,4 +106,7 @@ export class TrackListComponent implements OnInit {
       });
     }
   }
+
 }
+
+
