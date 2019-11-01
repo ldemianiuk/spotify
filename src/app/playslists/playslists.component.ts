@@ -17,7 +17,6 @@ export class PlayslistsComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.spotify.getUser().subscribe(user => console.log(user));
     this.spotify.getPlaylists().subscribe(playlists => {
       this.playlists = playlists.items;
     });

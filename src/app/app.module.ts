@@ -9,6 +9,7 @@ import { RedirectComponent } from './redirect/redirect.component';
 import { PlayslistsComponent } from './playslists/playslists.component';
 import {FormsModule} from '@angular/forms';
 import { TrackListComponent } from './track-list/track-list.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TrackListComponent } from './track-list/track-list.component';
     AuthComponent,
     RedirectComponent,
     PlayslistsComponent,
-    TrackListComponent
+    TrackListComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

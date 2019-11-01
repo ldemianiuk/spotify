@@ -27,12 +27,7 @@
       <td>{{track.upc}}</td>
     </tr>
     <tr>
-      <td colspan="9"></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Average</td>
-      <td></td>
+      <td colspan="4">Average</td>
       <td></td>
       <td>{{(avgDuration.average / 1000) / 60 | number: '1.0-0'}}:{{(avgDuration.average / 1000) % 60 | number: '2.0-0'}}</td>
       <td>{{avgPopularity.average | number: '1.0-0'}}%</td>
@@ -41,4 +36,6 @@
       <td></td>
     </tr>
   </table>
+  <h3>Genres</h3>
+  <div>{{genresList()}}</div>
 </div>

@@ -48,6 +48,7 @@ export class TrackListComponent implements OnInit {
   avgBpm = new Average();
   avgPopularity = new Average();
   avgDuration = new Average();
+  genres = new Map();
 
   constructor(private spotify: SpotifyService,
               private route: ActivatedRoute,
@@ -88,9 +89,10 @@ export class TrackListComponent implements OnInit {
     track.popularity = spotifyTrack.popularity;
     this.avgPopularity.add(track.popularity);
     track.genres = artist.genres;
+    track.genres.forEach(genre => this.genres.set(genre, 1 + (this.genres.get(genre) || 0)));
     track.bpm = features.tempo;
     track.upc = album.external_ids.upc;
-
+    track.artist = artist.name;
     this.tracks.push(track);
   }
 
@@ -104,6 +106,10 @@ export class TrackListComponent implements OnInit {
 
   private sortByDate() {
     this.tracks.sort((x, y) => x.date.getTime() - y.date.getTime());
+  }
+
+  private genresList(): string {
+    return [...this.genres.entries()].sort((x, y) => y[1] - x[1]).map(([key, val]) => `${key}(${val})`).join(', ');
   }
 
 }

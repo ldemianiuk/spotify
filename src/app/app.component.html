@@ -1,2 +1,6 @@
-<h1>{{title | titlecase}}</h1>
+<h1 routerLink="/home">{{title | titlecase}}</h1>
+<nav>
+  <a routerLink="/user" routerLinkActive="active-link">User</a>
+  <a routerLink="/playlists" routerLinkActive="active-link">Playlists</a>
+</nav>
 <router-outlet></router-outlet>

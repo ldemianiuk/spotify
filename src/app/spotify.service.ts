@@ -26,7 +26,7 @@ export class SpotifyService {
     return this.spotifyRequest('/me/playlists');
   }
 
-  getUser(): Observable<SpotifyApi.UserProfileResponse> {
+  getCurrentUser(): Observable<SpotifyApi.CurrentUsersProfileResponse> {
     return this.spotifyRequest('/me');
   }
 
